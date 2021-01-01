@@ -14,14 +14,27 @@ module.exports = (robot) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
 
   robot.hear /qotd/i, (res) ->
+
+    get_response_array = (data) ->
+      try
+        return data["feed"]["entry"]
+      catch
+        return []
+
     res.http(SHEET_URL)
       .get() (err, _, body) ->
-        return res.send "Sorry, the tubes are broken." if err
+        return res.send "In Soviet Russia, server always responds." if err
+
+        dataArray = get_response_array(JSON.parse(body))
+        randomIndex = Math.floor(Math.random() * dataArray.length - 1) + 1
+
         try
-          # data = JSON.parse(body)
-          return res.send body
-        catch e
-          return res.send "broken"
+          res.send dataArray[randomIndex]["content"]["$t"]
+        catch
+          res.send "It seems the Dev wrote some bad code, try again?"
+        # question =
+        # return res.send
+          # return res.send "It seems the Dev wrote some bad code, try again?"
     # lookup_sheet res, (text)->
     #   res.send text
     #   res.send SHEET_URL

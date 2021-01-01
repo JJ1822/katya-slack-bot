@@ -7,11 +7,27 @@
 #   Uncomment the ones you want to try and experiment with.
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
-
+SHEET_URL = "https://spreadsheets.google.com/feeds/cells/1v88g5tZ98S2rZdIYfQA3LDm9-nUNufB6IKcKd1Xforc/1/public/values?alt=json"
 module.exports = (robot) ->
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+
+  robot.hear /qotd/i, (res) ->
+    res.http(SHEET_URL)
+      .get() (err, _, body) ->
+        return res.send "Sorry, the tubes are broken." if err
+        try
+          # data = JSON.parse(body)
+          return res.send body
+        catch e
+          return res.send "broken"
+    # lookup_sheet res, (text)->
+    #   res.send text
+    #   res.send SHEET_URL
+    # lookup_sheet = (message, response_handler)->
+    #   res.http( SHEET_URL ).get() (error, response, body)->
+    #   response
   #
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]

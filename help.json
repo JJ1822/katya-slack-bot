@@ -1,0 +1,8 @@
+{
+  "server_message": "In Soviet Russia, you work for the server, try again?",
+  "broken_message": "Seems the Dev didn't code something correctly, maybe you should pay them more",
+  "vodka_message": "We don't serve vodka here, ask something different",
+  "available_actions": {
+    "Get the Random Question of the Day": "Type: QOTD"
+  }
+}
